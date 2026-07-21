@@ -1,0 +1,138 @@
+.journey {
+  position: relative;
+  z-index: 1;
+}
+
+.timeline {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  gap: 32px;
+  position: relative;
+}
+
+.stepConnector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 20px;
+}
+
+.stepDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid;
+  background: var(--bg-primary);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  margin-top: 24px;
+}
+
+.stepLine {
+  width: 2px;
+  flex: 1;
+  background: linear-gradient(
+    to bottom,
+    var(--border-default) 0%,
+    var(--border-subtle) 100%
+  );
+  margin: 8px 0;
+}
+
+.stepCard {
+  flex: 1;
+  padding: 24px 28px 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+  transition: all var(--transition-base);
+}
+
+.stepCard:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-default);
+  box-shadow: var(--shadow-md);
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.stepNumber {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.stepIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid;
+}
+
+.stepTitle {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.stepSubtitle {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+}
+
+.stepDesc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.stepSkills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skillTag {
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+@media (max-width: 600px) {
+  .step {
+    gap: 16px;
+  }
+
+  .stepCard {
+    padding: 20px;
+  }
+
+  .stepTitle {
+    font-size: 20px;
+  }
+}

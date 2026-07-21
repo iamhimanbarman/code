@@ -1,0 +1,142 @@
+.architecture {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-secondary);
+}
+
+.layerStack {
+  max-width: 800px;
+  margin: 0 auto 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.layer {
+  display: flex;
+  align-items: stretch;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.layer:hover {
+  border-color: var(--border-default);
+  transform: translateX(8px);
+  box-shadow: var(--shadow-md);
+}
+
+.layerBar {
+  width: 4px;
+  flex-shrink: 0;
+}
+
+.layerContent {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.layerName {
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 200px;
+}
+
+.layerItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.layerItem {
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+/* Tech Stack */
+.techSection {
+  text-align: center;
+}
+
+.techTitle {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800;
+  margin-bottom: 40px;
+}
+
+.techGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.techCard {
+  padding: 28px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  transition: all var(--transition-base);
+}
+
+.techCard:hover {
+  border-color: var(--border-default);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.techBadge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.techItems {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.techItem {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+  .techGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .layerContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .layerName {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .techGrid {
+    grid-template-columns: 1fr;
+  }
+}

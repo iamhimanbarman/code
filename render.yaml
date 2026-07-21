@@ -1,0 +1,37 @@
+services:
+  # 1. NestJS API Backend
+  - type: web
+    name: codeverse-api
+    runtime: node
+    buildCommand: npm ci && npm run build --workspace=backend
+    startCommand: node backend/dist/main.js
+    envVars:
+      - key: PORT
+        value: 4000
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # Connect string from Supabase (use transaction mode port 6543)
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 15m
+      - key: REFRESH_TOKEN_DAYS
+        value: 7
+      - key: CORS_ORIGIN
+        value: https://codeverse-web.onrender.com
+
+  # 2. Next.js Web Frontend
+  - type: web
+    name: codeverse-web
+    runtime: node
+    buildCommand: npm ci && npm run build --workspace=frontend
+    startCommand: npm run start --workspace=frontend
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          name: codeverse-api
+          type: web
+          property: url

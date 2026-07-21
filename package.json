@@ -1,24 +1,29 @@
 {
   "name": "codeverse",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "CodeVerse — The Complete AI-Powered Developer Ecosystem",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "npm run dev:web & npm run dev:api",
+    "dev:web": "npm run dev --workspace=frontend",
+    "dev:api": "npm run dev --workspace=backend",
+    "build": "npm run build --workspaces",
+    "build:web": "npm run build --workspace=frontend",
+    "build:api": "npm run build --workspace=backend",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present",
+    "db:generate": "npm run db:generate --workspace=backend",
+    "db:push": "npm run db:push --workspace=backend",
+    "db:migrate": "npm run db:migrate --workspace=backend",
+    "db:seed": "npm run db:seed --workspace=backend",
+    "db:studio": "npm run db:studio --workspace=backend"
   },
-  "dependencies": {
-    "next": "16.2.6",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.6",
-    "typescript": "^5"
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

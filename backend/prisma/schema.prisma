@@ -1,0 +1,312 @@
+// ============================================
+// CodeVerse Database Schema
+// PostgreSQL + Prisma ORM
+// ============================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ──────────────────────────────────────────────
+// User & Authentication
+// ──────────────────────────────────────────────
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  username     String       @unique
+  displayName  String
+  passwordHash String?
+  avatar       String?
+  role         UserRole     @default(STUDENT)
+  provider     AuthProvider @default(LOCAL)
+  bio          String?
+  location     String?
+  website      String?
+  githubUrl    String?
+  linkedinUrl  String?
+  xp           Int          @default(0)
+  level        Int          @default(1)
+  streak       Int          @default(0)
+  lastActiveAt DateTime?
+  isVerified   Boolean      @default(false)
+  isActive     Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  // Relations
+  refreshTokens RefreshToken[]
+  enrollments   Enrollment[]
+  submissions   Submission[]
+  skills        UserSkill[]
+  activities    Activity[]
+  authoredCourses Course[] @relation("CourseAuthor")
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+enum UserRole {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+  RECRUITER
+}
+
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+  GITHUB
+}
+
+// ──────────────────────────────────────────────
+// Courses & Learning
+// ──────────────────────────────────────────────
+
+model Course {
+  id            String      @id @default(cuid())
+  title         String
+  slug          String      @unique
+  description   String
+  thumbnail     String?
+  level         CourseLevel  @default(BEGINNER)
+  category      String
+  tags          String      @default("[]")
+  authorId      String
+  author        User        @relation("CourseAuthor", fields: [authorId], references: [id])
+  duration      Int         @default(0) // total minutes
+  lessonsCount  Int         @default(0)
+  enrolledCount Int         @default(0)
+  rating        Float       @default(0)
+  isPublished   Boolean     @default(false)
+  isFree        Boolean     @default(true)
+  price         Float?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Relations
+  lessons     Lesson[]
+  enrollments Enrollment[]
+
+  @@index([slug])
+  @@index([category])
+  @@index([authorId])
+  @@map("courses")
+}
+
+model Lesson {
+  id          String      @id @default(cuid())
+  courseId    String
+  course      Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title       String
+  slug        String
+  content     String
+  contentType ContentType @default(TEXT)
+  order       Int
+  duration    Int         @default(0) // minutes
+  isPublished Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  completions LessonCompletion[]
+
+  @@unique([courseId, slug])
+  @@index([courseId])
+  @@map("lessons")
+}
+
+model Enrollment {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId         String
+  course           Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  progressPercent Float     @default(0)
+  lastAccessedAt  DateTime?
+  enrolledAt      DateTime  @default(now())
+  completedAt     DateTime?
+
+  // Relations
+  completions LessonCompletion[]
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@map("enrollments")
+}
+
+model LessonCompletion {
+  id           String     @id @default(cuid())
+  enrollmentId String
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lessonId     String
+  lesson       Lesson     @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completedAt  DateTime   @default(now())
+
+  @@unique([enrollmentId, lessonId])
+  @@map("lesson_completions")
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum ContentType {
+  TEXT
+  VIDEO
+  INTERACTIVE
+  QUIZ
+  PROJECT
+}
+
+// ──────────────────────────────────────────────
+// Challenges & Submissions
+// ──────────────────────────────────────────────
+
+model Challenge {
+  id             String     @id @default(cuid())
+  title          String
+  slug           String     @unique
+  description    String
+  difficulty     Difficulty @default(EASY)
+  category       String
+  tags           String     @default("[]")
+  constraints    String?
+  inputFormat    String?
+  outputFormat   String?
+  examples       String     @default("[]") // IChallengeExample[]
+  starterCode    String     @default("{}") // Record<string, string>
+  testCases      String     @default("[]") // hidden test cases
+  solutionCount  Int        @default(0)
+  acceptanceRate Float      @default(0)
+  xpReward       Int        @default(50)
+  isPublished    Boolean    @default(false)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  // Relations
+  submissions Submission[]
+
+  @@index([slug])
+  @@index([difficulty])
+  @@index([category])
+  @@map("challenges")
+}
+
+model Submission {
+  id              String           @id @default(cuid())
+  challengeId     String
+  challenge       Challenge        @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  language        String
+  code            String
+  status          SubmissionStatus @default(PENDING)
+  runtime         Int?             // ms
+  memory          Int?             // KB
+  testCasesPassed Int              @default(0)
+  totalTestCases  Int              @default(0)
+  output          String?
+  error           String?
+  createdAt       DateTime         @default(now())
+
+  @@index([challengeId])
+  @@index([userId])
+  @@index([status])
+  @@map("submissions")
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  EXPERT
+}
+
+enum SubmissionStatus {
+  PENDING
+  RUNNING
+  ACCEPTED
+  WRONG_ANSWER
+  TIME_LIMIT
+  MEMORY_LIMIT
+  RUNTIME_ERROR
+  COMPILATION_ERROR
+}
+
+// ──────────────────────────────────────────────
+// Skills & Gamification
+// ──────────────────────────────────────────────
+
+model UserSkill {
+  id       String        @id @default(cuid())
+  userId   String
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name     String
+  category SkillCategory @default(LANGUAGE)
+  level    Int           @default(1)
+  xp       Int           @default(0)
+  maxXp    Int           @default(1000)
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("user_skills")
+}
+
+enum SkillCategory {
+  LANGUAGE
+  FRAMEWORK
+  DATABASE
+  DEVOPS
+  DSA
+  SYSTEM_DESIGN
+}
+
+// ──────────────────────────────────────────────
+// Activity Feed
+// ──────────────────────────────────────────────
+
+model Activity {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      ActivityType
+  title     String
+  metadata  String?
+  createdAt DateTime     @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("activities")
+}
+
+enum ActivityType {
+  COURSE_ENROLLED
+  COURSE_COMPLETED
+  LESSON_COMPLETED
+  CHALLENGE_SOLVED
+  SKILL_LEVELED_UP
+  STREAK_MILESTONE
+  BADGE_EARNED
+  PROJECT_CREATED
+}
