@@ -164,6 +164,8 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
   const [searchQuery, setSearchQuery] = useState("");
   const [copiedCodeIndex, setCopiedCodeIndex] = useState<string | null>(null);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [isMobileTopicsOpen, setIsMobileTopicsOpen] = useState(false);
+  const [mobileIdeView, setMobileIdeView] = useState<"editor" | "terminal">("editor");
 
   // Quick Quiz states (mapped by sectionIndex-topicIndex)
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
@@ -299,6 +301,7 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
 
   const handleRunCode = () => {
     setIsRunning(true);
+    setMobileIdeView("terminal");
     const compiler = getCompilerNameForSlug(langSlug);
     setTerminalLogs(prev => [
       ...prev,
@@ -612,8 +615,24 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                   </AnimatePresence>
                 </div>
 
+                {/* Collapsible Topics Toggle for Mobile */}
+                <div className="block lg:hidden">
+                  <button
+                    onClick={() => setIsMobileTopicsOpen(!isMobileTopicsOpen)}
+                    className="w-full flex items-center justify-between gap-3 px-4 py-3 bg-slate-900/60 border border-white/10 rounded-xl text-left text-xs font-bold text-slate-300 hover:text-white transition-all backdrop-blur-xl"
+                  >
+                    <span className="flex items-center gap-2 truncate">
+                      <BookOpen className="w-4 h-4 text-indigo-400 shrink-0" />
+                      <span className="truncate">
+                        Topic: {activeTopic ? activeTopic.title.replace(/^\d+(\.\d+)?\s+/, "") : "Select Chapter"}
+                      </span>
+                    </span>
+                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ${isMobileTopicsOpen ? "rotate-180" : ""}`} />
+                  </button>
+                </div>
+
                 {/* Topics / Sections List */}
-                <div className="space-y-1 bg-slate-900/10 border border-white/5 rounded-2xl p-3 backdrop-blur-xl">
+                <div className={`${isMobileTopicsOpen ? "block" : "hidden"} lg:block space-y-1 bg-slate-900/10 border border-white/5 rounded-2xl p-3 backdrop-blur-xl`}>
                   <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 px-3">Documentation Sections</p>
                   <div className="space-y-1.5">
                     {filteredSections.map((section: any, idx: number) => {
@@ -661,6 +680,7 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                                           setEditorCode(topic.code);
                                           setEditorFileName(getFileNameForSlug(langSlug));
                                         }
+                                        setIsMobileTopicsOpen(false); // Auto close mobile dropdown after topic selection
                                       }}
                                       className={`w-full text-left py-1 text-[11px] font-medium transition-all block truncate pl-1.5 border-l-2 hover:translate-x-0.5 transform duration-150 ${
                                         isSelected
@@ -721,16 +741,16 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                   )}
                   <div className={`overflow-hidden ${isIdeMaximized ? '' : 'border border-white/10 rounded-2xl'} ${THEMES[ideTheme].bg} shadow-2xl transition-all duration-300 flex flex-col ${isIdeMaximized ? 'flex-1 h-full' : ''}`}>
                     {/* IDE Header */}
-                    <div className={`flex items-center justify-between px-4 py-3 ${THEMES[ideTheme].header}`}>
-                      <div className="flex items-center gap-2">
-                        <div className="flex gap-1.5 mr-4">
+                    <div className={`flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 ${THEMES[ideTheme].header}`}>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="hidden sm:flex gap-1.5 mr-2">
                           <span className="w-3 h-3 rounded-full bg-rose-500 block" />
                           <span className="w-3 h-3 rounded-full bg-amber-500 block" />
                           <span className="w-3 h-3 rounded-full bg-emerald-500 block" />
                         </div>
                         
                         {/* File Tabs */}
-                        <div className="flex items-center gap-1 text-xs">
+                        <div className="flex items-center gap-1 text-xs overflow-x-auto max-w-[140px] sm:max-w-none scrollbar-none">
                           {Object.keys(workspaceFiles).map((fileName) => {
                             const isMd = fileName.endsWith('.md');
                             const isActive = activeFile === fileName;
@@ -738,14 +758,14 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                               <button
                                 key={fileName}
                                 onClick={() => selectFile(fileName)}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-t-lg font-mono border-t-2 transition-all ${
+                                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-t-lg font-mono border-t-2 transition-all whitespace-nowrap ${
                                   isActive
                                     ? `bg-slate-900 ${THEMES[ideTheme].accent} font-bold text-white`
                                     : "text-slate-500 hover:text-slate-300 hover:bg-slate-800"
                                 }`}
                               >
-                                {isMd ? <FileText className="w-3.5 h-3.5" /> : <FileCode className="w-3.5 h-3.5" />}
-                                {fileName}
+                                {isMd ? <FileText className="w-3 h-3" /> : <FileCode className="w-3 h-3" />}
+                                <span className="text-[10px] sm:text-xs">{fileName}</span>
                               </button>
                             );
                           })}
@@ -753,7 +773,7 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                       </div>
 
                       {/* Theme Selector, Actions and Close */}
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                         {/* Theme */}
                         <div className="hidden md:flex items-center gap-2">
                           <Settings className="w-3.5 h-3.5 text-slate-500" />
@@ -773,21 +793,21 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                         <button
                           onClick={handleRunCode}
                           disabled={isRunning}
-                          className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white rounded text-[11px] font-bold shadow-lg transition-all"
+                          className="flex items-center gap-1 px-2.5 py-1 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white rounded text-[10px] font-bold shadow-lg transition-all"
                         >
                           {isRunning ? (
-                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                            <RefreshCw className="w-3 h-3 animate-spin" />
                           ) : (
-                            <Play className="w-3.5 h-3.5 fill-current" />
+                            <Play className="w-3 h-3 fill-current" />
                           )}
-                          Run
+                          <span>Run</span>
                         </button>
 
                         {/* Reset */}
                         <button
                           onClick={() => setEditorCode(activeTopic.code || "")}
                           title="Reset code template"
-                          className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-all"
+                          className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-all hidden sm:block"
                         >
                           <RotateCcw className="w-4 h-4" />
                         </button>
@@ -796,7 +816,7 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                         <button
                           onClick={handleDownloadCode}
                           title="Download file"
-                          className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-all"
+                          className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-all hidden sm:block"
                         >
                           <Download className="w-4 h-4" />
                         </button>
@@ -805,28 +825,52 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                         <button
                           onClick={toggleFullscreen}
                           title={isIdeMaximized ? "Exit Fullscreen" : "Fullscreen"}
-                          className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-all"
+                          className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-all hidden sm:block"
                         >
                           {isIdeMaximized ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
                         </button>
 
-                        <span className="text-slate-700">|</span>
+                        <span className="text-slate-700 hidden sm:inline">|</span>
 
                         {/* Close Editor */}
                         <button
                           onClick={() => setIsIdeActive(false)}
-                          className="flex items-center gap-1 px-2.5 py-1 text-slate-400 hover:text-white hover:bg-rose-500/20 hover:text-rose-400 rounded text-[11px] font-bold transition-all border border-transparent hover:border-rose-500/20"
+                          className="flex items-center gap-1 px-2 py-1 text-slate-400 hover:text-white hover:bg-rose-500/20 hover:text-rose-400 rounded text-[10px] font-bold transition-all border border-transparent hover:border-rose-500/20"
                         >
-                          <X className="w-3.5 h-3.5" /> Close Editor
+                          <X className="w-3 h-3" /> <span className="hidden sm:inline">Close Editor</span><span className="inline sm:hidden">Close</span>
                         </button>
                       </div>
+                    </div>
+
+                    {/* Mobile View Toggle Bar */}
+                    <div className="flex sm:hidden border-b border-white/5 bg-slate-950/20 text-xs shrink-0 select-none">
+                      <button
+                        onClick={() => setMobileIdeView("editor")}
+                        className={`flex-1 text-center py-2.5 font-bold transition-colors ${
+                          mobileIdeView === "editor"
+                            ? "text-indigo-400 bg-white/[0.02] border-b-2 border-indigo-500"
+                            : "text-slate-500 hover:text-slate-300"
+                        }`}
+                      >
+                        Code Editor
+                      </button>
+                      <button
+                        onClick={() => setMobileIdeView("terminal")}
+                        className={`flex-1 text-center py-2.5 font-bold transition-colors ${
+                          mobileIdeView === "terminal"
+                            ? "text-indigo-400 bg-white/[0.02] border-b-2 border-indigo-500"
+                            : "text-slate-500 hover:text-slate-300"
+                        }`}
+                      >
+                        Terminal Output {terminalLogs.length > 0 && `(${terminalLogs.length})`}
+                      </button>
                     </div>
 
                     {/* Workspace body */}
                     <div className={`flex overflow-hidden relative ${isIdeMaximized ? 'flex-1 min-h-0' : 'h-[420px]'}`}>
                       
                       {/* Activity Bar (Far Left) */}
-                      <div className="w-12 bg-slate-950/80 border-r border-white/5 flex flex-col items-center py-4 justify-between select-none shrink-0">
+                      <div className="w-12 bg-slate-950/80 border-r border-white/5 flex-col items-center py-4 justify-between select-none shrink-0 hidden sm:flex">
                         <div className="flex flex-col gap-5 items-center w-full">
                           {[
                             { id: "explorer", icon: FolderTree, title: "Explorer" },
@@ -1011,7 +1055,9 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                       </div>
 
                       {/* Code Editor Area */}
-                      <div className="flex-1 flex overflow-hidden relative">
+                      <div className={`flex-1 overflow-hidden relative ${
+                        mobileIdeView === "editor" ? "flex" : "hidden sm:flex"
+                      }`}>
                         {!activeFile.endsWith('.md') ? (
                           <div className="flex-1 flex font-mono text-sm leading-6 relative select-text overflow-hidden">
                             {/* Gutter Line Numbers */}
@@ -1146,10 +1192,12 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                     </div>
 
                     {/* Bottom Panel (VS Code Tabs Style) */}
-                    <div className={`font-mono text-xs h-[180px] flex flex-col ${THEMES[ideTheme].terminal} bg-slate-950/90 border-t border-white/5 shrink-0`}>
+                    <div className={`font-mono text-xs flex flex-col ${THEMES[ideTheme].terminal} bg-slate-950/90 border-t border-white/5 shrink-0 ${
+                      mobileIdeView === "terminal" ? "flex-1 min-h-[260px]" : "h-[180px] hidden sm:flex"
+                    }`}>
                       {/* Bottom Panel Tabs */}
-                      <div className="flex items-center justify-between border-b border-white/5 bg-slate-950/40 px-3 py-1.5 text-[10px] uppercase font-bold text-slate-500 select-none">
-                        <div className="flex items-center gap-4">
+                      <div className="flex items-center justify-between border-b border-white/5 bg-slate-950/40 px-3 py-1.5 text-[10px] uppercase font-bold text-slate-500 select-none gap-2 min-w-0">
+                        <div className="flex items-center gap-4 overflow-x-auto whitespace-nowrap scrollbar-none min-w-0 pr-2">
                           {[
                             { id: "problems", label: `Problems (${getProblems().length})` },
                             { id: "output", label: "Output" },
@@ -1374,12 +1422,12 @@ export default function DocDetailPage({ params }: { params: Promise<{ slug: stri
                       className="bg-slate-900/30 border border-white/5 rounded-2xl p-6 md:p-8 space-y-6 backdrop-blur-xl"
                     >
                       {/* Breadcrumbs */}
-                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                        <span>{currentLang.name} Reference</span>
+                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        <span className="hidden sm:inline">{currentLang.name} Reference</span>
+                        <ChevronRight className="w-3 h-3 text-slate-600 hidden sm:inline" />
+                        <span className="truncate max-w-[120px] sm:max-w-none">{activeSection.title.replace(/^\d+\.\s+/, "")}</span>
                         <ChevronRight className="w-3 h-3 text-slate-600" />
-                        <span className="truncate">{activeSection.title.replace(/^\d+\.\s+/, "")}</span>
-                        <ChevronRight className="w-3 h-3 text-slate-600" />
-                        <span className="text-indigo-400 truncate">{activeTopic.title.replace(/^\d+\.\d+\s+/, "")}</span>
+                        <span className="text-indigo-400 truncate max-w-[120px] sm:max-w-none">{activeTopic.title.replace(/^\d+\.\d+\s+/, "")}</span>
                       </div>
 
                       <div className="space-y-4">
