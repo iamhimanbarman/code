@@ -127,8 +127,75 @@
   }
 }
 
+@media (max-width: 768px) {
+  .card {
+    padding: 22px 18px;
+  }
+
+  .cardTitle {
+    font-size: 19px;
+    margin-bottom: 16px;
+  }
+
+  .deliverable {
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  .deliverables {
+    gap: 8px;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 600px) {
   .grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+
+  .cardTitle {
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+
+  .phaseLabel {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  .timeline {
+    font-size: 11px;
+  }
+
+  .statusBadge {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 16px 14px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .deliverable {
+    font-size: 12px;
+  }
+
+  .deliverables {
+    gap: 6px;
   }
 }

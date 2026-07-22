@@ -133,20 +133,20 @@ export default function ChallengesPage() {
       <div className="bg-mesh" />
       <Navbar />
 
-      <main className="min-h-screen pt-32 pb-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <main className="min-h-screen pt-24 sm:pt-32 pb-16 sm:pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="flex flex-col gap-4 sm:gap-6 mb-8 sm:mb-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">
+              <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 sm:mb-4 tracking-tight">
                 Coding <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Challenges</span>
               </h1>
-              <p className="text-slate-400 text-lg max-w-2xl">
+              <p className="text-slate-400 text-sm sm:text-lg max-w-2xl">
                 {stats.total.toLocaleString()} problems across all difficulty levels. Master data structures, algorithms, and ace your interviews.
               </p>
             </motion.div>
@@ -155,7 +155,7 @@ export default function ChallengesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex gap-3"
+              className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto"
             >
               <div className="relative group">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -164,7 +164,7 @@ export default function ChallengesPage() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search problems..." 
-                  className="bg-slate-900/50 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent transition-all backdrop-blur-xl w-full md:w-72"
+                  className="bg-slate-900/50 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent transition-all backdrop-blur-xl w-full sm:w-72 text-sm"
                 />
                 {search && (
                   <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white">
@@ -242,7 +242,7 @@ export default function ChallengesPage() {
           )}
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 mb-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-5 mb-6 sm:mb-10">
             {[
               { label: "Total Problems", value: stats.total.toLocaleString(), icon: Code, color: "text-indigo-400" },
               { label: "Easy", value: stats.easy.toLocaleString(), icon: CheckCircle, color: "text-emerald-400" },
@@ -254,15 +254,15 @@ export default function ChallengesPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 + i * 0.05 }}
-                className="bg-slate-900/50 border border-white/5 rounded-2xl p-5 backdrop-blur-xl hover:border-white/10 transition-colors"
+                className="bg-slate-900/50 border border-white/5 rounded-xl sm:rounded-2xl p-3 sm:p-5 backdrop-blur-xl hover:border-white/10 transition-colors"
               >
-                <div className="flex items-center gap-3">
-                  <div className={`p-2.5 rounded-xl bg-slate-800/50 border border-white/5 ${stat.color}`}>
-                    <stat.icon className="w-5 h-5" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className={`p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl bg-slate-800/50 border border-white/5 ${stat.color}`}>
+                    <stat.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <p className="text-slate-400 text-xs font-medium mb-0.5">{stat.label}</p>
-                    <p className="text-xl font-bold text-white">{stat.value}</p>
+                    <p className="text-slate-400 text-[10px] sm:text-xs font-medium mb-0.5">{stat.label}</p>
+                    <p className="text-base sm:text-xl font-bold text-white">{stat.value}</p>
                   </div>
                 </div>
               </motion.div>
@@ -270,7 +270,7 @@ export default function ChallengesPage() {
           </div>
 
           {/* Results summary + Pagination top */}
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4">
             <p className="text-sm text-slate-400">
               Showing <span className="text-white font-medium">{((page - 1) * PAGE_SIZE) + 1}–{Math.min(page * PAGE_SIZE, filtered.length)}</span> of{" "}
               <span className="text-white font-medium">{filtered.length.toLocaleString()}</span> problems
@@ -309,17 +309,17 @@ export default function ChallengesPage() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-white/5 bg-slate-800/20">
-                    <th className="px-6 py-4 text-sm font-medium text-slate-400 w-16">#</th>
-                    <th className="px-6 py-4 text-sm font-medium text-slate-400">Title</th>
-                    <th className="px-6 py-4 text-sm font-medium text-slate-400">Category</th>
-                    <th className="px-6 py-4 text-sm font-medium text-slate-400">Acceptance</th>
-                    <th className="px-6 py-4 text-sm font-medium text-slate-400">Difficulty</th>
+                    <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-slate-400 w-10 sm:w-16">#</th>
+                    <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-slate-400">Title</th>
+                    <th className="hidden md:table-cell px-6 py-4 text-sm font-medium text-slate-400">Category</th>
+                    <th className="hidden sm:table-cell px-6 py-4 text-sm font-medium text-slate-400">Acceptance</th>
+                    <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-slate-400">Difficulty</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {isLoading ? (
                     <tr>
-                      <td colSpan={5} className="px-6 py-12 text-center text-slate-400">
+                      <td colSpan={5} className="px-4 sm:px-6 py-8 sm:py-12 text-center text-slate-400 text-sm">
                         <div className="flex items-center justify-center gap-3">
                           <Code className="w-5 h-5 animate-spin text-emerald-400" />
                           Loading {">"}3,500 challenges...
@@ -328,7 +328,7 @@ export default function ChallengesPage() {
                     </tr>
                   ) : paginated.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="px-6 py-12 text-center text-slate-400">
+                      <td colSpan={5} className="px-4 sm:px-6 py-8 sm:py-12 text-center text-slate-400 text-sm">
                         No challenges match your filters.
                       </td>
                     </tr>
@@ -338,13 +338,13 @@ export default function ChallengesPage() {
                         key={challenge.id} 
                         className="group hover:bg-slate-800/30 transition-colors"
                       >
-                        <td className="px-6 py-3.5 text-sm text-slate-500 font-mono">
+                        <td className="px-3 sm:px-6 py-2.5 sm:py-3.5 text-xs sm:text-sm text-slate-500 font-mono">
                           {challenge.number || "—"}
                         </td>
-                        <td className="px-6 py-3.5">
+                        <td className="px-3 sm:px-6 py-2.5 sm:py-3.5">
                           <Link 
                             href={`/challenges/${challenge.slug}`}
-                            className="font-medium text-white hover:text-emerald-400 transition-colors"
+                            className="font-medium text-sm sm:text-base text-white hover:text-emerald-400 transition-colors"
                           >
                             {challenge.title}
                           </Link>
@@ -358,14 +358,14 @@ export default function ChallengesPage() {
                             </div>
                           )}
                         </td>
-                        <td className="px-6 py-3.5 text-sm text-slate-400">
+                        <td className="hidden md:table-cell px-6 py-3.5 text-sm text-slate-400">
                           {challenge.category}
                         </td>
-                        <td className="px-6 py-3.5 text-sm text-slate-400">
+                        <td className="hidden sm:table-cell px-6 py-3.5 text-sm text-slate-400">
                           {challenge.acceptanceRate}%
                         </td>
-                        <td className="px-6 py-3.5">
-                          <span className={`text-xs font-medium px-2.5 py-1 rounded-lg border ${getDifficultyColor(challenge.difficulty)}`}>
+                        <td className="px-3 sm:px-6 py-2.5 sm:py-3.5">
+                          <span className={`text-[10px] sm:text-xs font-medium px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg border ${getDifficultyColor(challenge.difficulty)}`}>
                             {challenge.difficulty}
                           </span>
                         </td>

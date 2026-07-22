@@ -298,17 +298,50 @@
 @media (max-width: 768px) {
   .hero {
     padding: 100px 0 48px;
+    min-height: auto;
+  }
+
+  .orb1 {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    left: -80px;
+  }
+
+  .orb2 {
+    width: 250px;
+    height: 250px;
+    right: -100px;
+  }
+
+  .orb3 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .badge {
+    padding: 6px 14px;
+    font-size: 12px;
+    gap: 8px;
+    margin-bottom: 24px;
   }
 
   .ctas {
     gap: 12px;
     margin-bottom: 48px;
     width: 100%;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .ctas a, .ctas button {
+  .ctas a,
+  .ctas button {
     width: 100%;
     max-width: 320px;
+  }
+
+  .codePreview {
+    margin-bottom: 40px;
   }
 
   .codeBody {
@@ -317,51 +350,124 @@
 
   .codeBody pre {
     font-size: 11px;
+    line-height: 1.6;
   }
 
   .lineNum {
-    width: 24px;
-    margin-right: 12px;
+    width: 20px;
+    margin-right: 10px;
   }
 
-  .floatingIcon {
-    font-size: 20px;
-    opacity: 0.1;
-  }
-
-  .stats {
-    gap: 20px 36px;
-  }
-
-  .statValue {
-    font-size: 26px;
+  .windowBar {
+    padding: 10px 14px;
+    gap: 8px;
   }
 
   .windowActions {
     display: none;
   }
-}
 
-@media (max-width: 480px) {
-  .hero {
-    padding: 90px 0 40px;
+  .windowTitle {
+    font-size: 11px;
   }
 
-  .badge {
-    padding: 6px 14px;
-    font-size: 12px;
-    margin-bottom: 20px;
+  .dotRed,
+  .dotYellow,
+  .dotGreen {
+    width: 10px;
+    height: 10px;
+  }
+
+  .floatingIcon {
+    font-size: 18px;
+    opacity: 0.08;
   }
 
   .stats {
-    gap: 16px 24px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .stat {
+    padding: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
   }
 
   .statValue {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .statLabel {
     font-size: 11px;
+  }
+}
+
+@media (max-width: 640px) {
+  .floatingIcon {
+    display: none;
+  }
+
+  .hero {
+    padding: 90px 0 36px;
+  }
+
+  .subtitle {
+    margin-bottom: 32px;
+  }
+
+  .ctas {
+    margin-bottom: 36px;
+  }
+
+  .codePreview {
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 84px 0 28px;
+  }
+
+  .badge {
+    padding: 5px 12px;
+    font-size: 11px;
+    margin-bottom: 20px;
+  }
+
+  .codeBody {
+    padding: 12px 8px;
+  }
+
+  .codeBody pre {
+    font-size: 10px;
+  }
+
+  .lineNum {
+    width: 18px;
+    margin-right: 8px;
+  }
+
+  .codeWindow {
+    border-radius: var(--radius-lg);
+  }
+
+  .stats {
+    gap: 10px;
+  }
+
+  .stat {
+    padding: 10px;
+  }
+
+  .statValue {
+    font-size: 20px;
+  }
+
+  .statLabel {
+    font-size: 10px;
   }
 }

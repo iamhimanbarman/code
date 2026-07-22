@@ -133,10 +133,90 @@
   .layerName {
     min-width: auto;
   }
+
+  .layer:hover {
+    transform: none;
+  }
+
+  .layerStack {
+    margin-bottom: 56px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layerContent {
+    padding: 16px 18px;
+    gap: 10px;
+  }
+
+  .layerName {
+    font-size: 13px;
+  }
+
+  .layerItem {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  .techCard {
+    padding: 20px 16px;
+  }
+
+  .techBadge {
+    font-size: 11px;
+    padding: 3px 10px;
+    margin-bottom: 16px;
+  }
+
+  .techItem {
+    font-size: 14px;
+  }
+
+  .techTitle {
+    margin-bottom: 28px;
+  }
+
+  .techCard:hover {
+    transform: none;
+  }
 }
 
 @media (max-width: 600px) {
   .techGrid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .layerStack {
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .layerContent {
+    padding: 14px 12px;
+    gap: 8px;
+  }
+
+  .layerName {
+    font-size: 12px;
+  }
+
+  .layerItems {
+    gap: 6px;
+  }
+
+  .layerItem {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  .techItems {
+    gap: 8px;
+  }
+
+  .techItem {
+    font-size: 13px;
   }
 }

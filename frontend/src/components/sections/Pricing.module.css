@@ -121,6 +121,7 @@
     grid-template-columns: 1fr;
     max-width: 440px;
     margin: 0 auto;
+    gap: 16px;
   }
 
   .card.popular {
@@ -129,5 +130,72 @@
 
   .card.popular:hover {
     transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 28px 22px;
+  }
+
+  .price {
+    font-size: 40px;
+  }
+
+  .period {
+    font-size: 14px;
+  }
+
+  .planDesc {
+    font-size: 13px;
+  }
+
+  .featureList {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .feature {
+    font-size: 13px;
+    gap: 10px;
+  }
+
+  .cardHeader {
+    margin-bottom: 20px;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .card.popular:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    max-width: 100%;
+  }
+
+  .card {
+    padding: 24px 18px;
+  }
+
+  .price {
+    font-size: 36px;
+  }
+
+  .planName {
+    font-size: 12px;
+  }
+
+  .feature {
+    font-size: 13px;
+  }
+
+  .popularBadge {
+    font-size: 11px;
+    padding: 3px 16px;
   }
 }

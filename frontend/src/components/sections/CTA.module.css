@@ -104,6 +104,84 @@
 
 @media (max-width: 768px) {
   .card {
-    padding: 48px 24px;
+    padding: 48px 20px;
+    border-radius: var(--radius-xl);
+  }
+
+  .subtitle {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  .actions {
+    margin-bottom: 32px;
+  }
+
+  .glowOrb1 {
+    width: 250px;
+    height: 250px;
+    top: -80px;
+    left: -80px;
+  }
+
+  .glowOrb2 {
+    width: 250px;
+    height: 250px;
+    bottom: -80px;
+    right: -80px;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 40px 18px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .actions a,
+  .actions button {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 32px 14px;
+    border-radius: var(--radius-lg);
+  }
+
+  .trust {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .trustText {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
+    margin-left: -8px;
+  }
+
+  .glowOrb1,
+  .glowOrb2 {
+    width: 180px;
+    height: 180px;
   }
 }

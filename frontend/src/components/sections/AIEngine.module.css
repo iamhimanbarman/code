@@ -206,13 +206,55 @@
   }
 }
 
+@media (max-width: 768px) {
+  .tabs {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 0;
+  }
+
+  .tab {
+    scroll-snap-align: start;
+    padding: 10px 14px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .info {
+    padding: 24px 18px;
+  }
+
+  .infoTitle {
+    font-size: 24px;
+  }
+
+  .infoDesc {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .demoBody {
+    padding: 14px;
+  }
+
+  .demoPrompt {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+
+  .responseText {
+    font-size: 11px;
+    line-height: 1.7;
+  }
+}
+
 @media (max-width: 600px) {
   .info {
     padding: 20px 16px;
   }
 
   .infoTitle {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .infoCta {
@@ -220,15 +262,74 @@
     width: 100%;
   }
 
-  .infoCta a, .infoCta button {
+  .infoCta a,
+  .infoCta button {
     width: 100%;
+  }
+
+  .tab span {
+    display: none;
+  }
+
+  .tab {
+    padding: 12px 16px;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .demo {
+    padding: 12px;
   }
 
   .demoBody {
     padding: 12px;
+    gap: 12px;
+  }
+
+  .demoBarTitle {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .showcase {
+    border-radius: var(--radius-lg);
+  }
+
+  .info {
+    padding: 18px 14px;
+  }
+
+  .infoTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .infoDesc {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .demoBody {
+    padding: 10px;
+  }
+
+  .demoPrompt {
+    font-size: 11px;
+    padding: 8px 10px;
   }
 
   .responseText {
-    font-size: 11px;
+    font-size: 10px;
+  }
+
+  .aiAvatar {
+    width: 24px;
+    height: 24px;
+  }
+
+  .aiAvatar svg {
+    width: 12px;
+    height: 12px;
   }
 }

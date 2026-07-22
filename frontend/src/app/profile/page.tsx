@@ -632,10 +632,11 @@ const containerStyle: React.CSSProperties = {
   background: "#08070b",
   color: "#fff",
   fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-  padding: "32px clamp(16px, 4vw, 80px)",
+  padding: "24px clamp(12px, 3vw, 80px)",
   position: "relative",
   overflow: "hidden",
   width: "100%",
+  boxSizing: "border-box",
 };
 
 const glowLeft: React.CSSProperties = {
@@ -666,10 +667,12 @@ const headerNav: React.CSSProperties = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  marginBottom: "32px",
-  paddingBottom: "16px",
+  marginBottom: "24px",
+  paddingBottom: "12px",
   borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
   width: "100%",
+  gap: "8px",
+  flexWrap: "wrap",
 };
 
 const logoLink: React.CSSProperties = {
@@ -700,8 +703,8 @@ const logoutBtnStyle: React.CSSProperties = {
 
 const layoutGrid: React.CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-  gap: "32px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
+  gap: "20px",
   maxWidth: "1280px",
   margin: "0 auto",
 };
@@ -723,13 +726,13 @@ const avatarSection: React.CSSProperties = {
 };
 
 const avatarImgStyle: React.CSSProperties = {
-  width: "100px",
-  height: "100px",
+  width: "80px",
+  height: "80px",
   borderRadius: "50%",
   objectFit: "cover",
   border: "3px solid #6366f1",
   boxShadow: "0 0 20px rgba(99, 102, 241, 0.3)",
-  marginBottom: "16px",
+  marginBottom: "12px",
 };
 
 const sidebarName: React.CSSProperties = {
@@ -847,7 +850,7 @@ const contentCard: React.CSSProperties = {
 };
 
 const tabTitle: React.CSSProperties = {
-  fontSize: "22px",
+  fontSize: "clamp(18px, 4vw, 22px)",
   fontWeight: 700,
   marginBottom: "6px",
   letterSpacing: "-0.5px",
@@ -966,15 +969,15 @@ const saveButtonStyle: React.CSSProperties = {
 
 const statsGrid: React.CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "repeat(2, 1fr)",
-  gap: "20px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 140px), 1fr))",
+  gap: "12px",
 };
 
 const statCard: React.CSSProperties = {
   background: "rgba(255, 255, 255, 0.02)",
   border: "1px solid rgba(255, 255, 255, 0.05)",
   borderRadius: "16px",
-  padding: "24px",
+  padding: "16px",
 };
 
 const statHeader: React.CSSProperties = {
@@ -984,7 +987,7 @@ const statHeader: React.CSSProperties = {
 };
 
 const statVal: React.CSSProperties = {
-  fontSize: "28px",
+  fontSize: "clamp(20px, 5vw, 28px)",
   fontWeight: 700,
   color: "#fff",
 };

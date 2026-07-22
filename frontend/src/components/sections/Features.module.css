@@ -70,8 +70,64 @@
   }
 }
 
+@media (max-width: 768px) {
+  .card {
+    padding: 24px 20px;
+  }
+
+  .iconWrap {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 16px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .cardDesc {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 600px) {
   .grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    gap: 10px;
+  }
+
+  .iconWrap {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 12px;
+  }
+
+  .iconWrap svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .cardTitle {
+    font-size: 15px;
+  }
+
+  .cardDesc {
+    font-size: 13px;
   }
 }
